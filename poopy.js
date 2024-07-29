@@ -1077,7 +1077,7 @@ class Poopy {
 
             var hasTriggerPhrase = config.triggerPhrase && origcontent.toLowerCase().match(config.triggerPhrase.toLowerCase())
 
-            if (hasTriggerPhrase && (config.allowbottriggers || config.allowbotusage)) {
+            if (hasTriggerPhrase && (!msg.author.bot || (config.allowbottriggers || config.allowbotusage))) {
                 await commands.find(fcmd => fcmd.name.find(fcmdname => fcmdname === 'alchat')).execute.call(poopy, msg, ['', origcontent]).catch(err => {
                     console.log(err)
                 })
