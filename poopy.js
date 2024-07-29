@@ -22,6 +22,7 @@ class Poopy {
             allowtesting: true,
             allowpingresponses: true,
             allowbotusage: false,
+            allowbottriggers: false,
             database: 'poopydata',
             globalPrefix: 'p:',
             stfu: false,
@@ -1076,7 +1077,7 @@ class Poopy {
 
             var hasTriggerPhrase = config.triggerPhrase && origcontent.toLowerCase().match(config.triggerPhrase.toLowerCase())
 
-            if (hasTriggerPhrase) {
+            if (hasTriggerPhrase && (config.allowbottriggers || config.allowbotusage)) {
                 await commands.find(fcmd => fcmd.name.find(fcmdname => fcmdname === 'alchat')).execute.call(poopy, msg, ['', origcontent]).catch(err => {
                     console.log(err)
                 })
