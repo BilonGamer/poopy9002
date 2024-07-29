@@ -1078,9 +1078,16 @@ class Poopy {
             var hasTriggerPhrase = config.triggerPhrase && origcontent.toLowerCase().match(config.triggerPhrase.toLowerCase())
 
             if (hasTriggerPhrase && (!msg.author.bot || (config.allowbottriggers || config.allowbotusage))) {
-                await commands.find(fcmd => fcmd.name.find(fcmdname => fcmdname === 'alchat')).execute.call(poopy, msg, ['', origcontent]).catch(err => {
+                msg.nosend = true
+                var content = await commands.find(fcmd => fcmd.name.find(fcmdname => fcmdname === 'alchat')).execute.call(poopy, msg, ['', origcontent]).catch(err => {
                     console.log(err)
                 })
+                
+                if (msg.author.id == bot.user.id) {
+                    await msg.channel.send(content).catch(() => { })
+                } else {
+                    await msg.reply(content).catch(() => { })
+                }
             }
             else if (
                 config.allowpingresponses &&
